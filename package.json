@@ -19,6 +19,7 @@
     "seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
+    "@auth0/nextjs-auth0": "^4.10.0",
     "@prisma/client": "^6.17.1",
     "next": "15.5.5",
     "react": "19.1.0",

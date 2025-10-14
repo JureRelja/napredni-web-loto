@@ -1,4 +1,4 @@
-import db from '@/app/prisma.server'
+import db from '@/lib/prisma.server'
 
 export async function POST() {
   try {

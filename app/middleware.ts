@@ -1,12 +1,8 @@
-import { NextResponse, NextRequest } from 'next/server'
+import { auth0 } from '@/lib/auth';
+import { NextRequest } from 'next/server'
  
-export function middleware(request: NextRequest) {
-  //check auth
-  const token = request.cookies.get('token')?.value
-  if (token) {
-    return NextResponse.next()
-  }
-  return NextResponse.redirect(new URL('/public/login', request.url))
+export async function middleware(request: NextRequest) {
+  await auth0.middleware(request);
 }
  
 export const config = {
