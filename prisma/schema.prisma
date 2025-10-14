@@ -9,7 +9,7 @@ datasource db {
 }
 
 model LotteryRounds {
-  id                    Int       @id
+  id                    Int       @id @default(autoincrement())
   areSubmissionsAllowed Boolean   @default(true)
   drawnNumbers          Int[]
   tickets               Tickets[]
