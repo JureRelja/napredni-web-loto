@@ -1,0 +1,30 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model LotteryRounds {
+  id                    Int       @id
+  areSubmissionsAllowed Boolean   @default(true)
+  drawnNumbers          Int[]
+}
+
+model Users {
+  id      Int       @id
+  email   String    @unique
+  tickets Tickets[]
+}
+
+model Tickets {
+  id               String        @id @default(uuid())
+  qrCodeLink       String
+  predictedNumbers Int[]
+  idCardNumber     String
+  userId           Int
+  user             Users         @relation(fields: [userId], references: [id])
+}
