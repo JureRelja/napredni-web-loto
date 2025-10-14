@@ -12,6 +12,7 @@ model LotteryRounds {
   id                    Int       @id
   areSubmissionsAllowed Boolean   @default(true)
   drawnNumbers          Int[]
+  tickets               Tickets[]
 }
 
 model Users {
@@ -22,9 +23,12 @@ model Users {
 
 model Tickets {
   id               String        @id @default(uuid())
-  qrCodeLink       String
+  qrCodeImageLink  String
+  publicLink       String
   predictedNumbers Int[]
   idCardNumber     String
   userId           Int
   user             Users         @relation(fields: [userId], references: [id])
+  lotteryRoundId   Int
+  lotteryRound     LotteryRounds @relation(fields: [lotteryRoundId], references: [id])
 }
