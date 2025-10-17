@@ -1,7 +1,16 @@
 import db from '@/lib/prisma.server'
+import { verifyToken } from '../utils'
 
 export async function POST(request: Request) {
   try {
+     // validate token
+    try {
+      await verifyToken(request.headers.get('authorization') ?? undefined)
+    } catch (err) {
+      console.error('Auth failed:', err)
+      return new Response('Unauthorized', { status: 401 })
+    }
+
     const data = await request.json()
     const numbers = data.numbers as number[]
 
