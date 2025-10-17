@@ -17,10 +17,16 @@ export async function POST(request: Request) {
     const activeRound = await db.lotteryRounds.findFirst({
       where: {
         areSubmissionsAllowed: false,
+        drawnNumbers: {
+          equals: [],
+        },
       },
       orderBy: {
         id: 'asc',
-      }
+      },
+      include: {
+        tickets: true,
+      },
     })
 
     if (activeRound?.drawnNumbers.length === 0) {
