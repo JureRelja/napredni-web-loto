@@ -16,16 +16,17 @@ export default async function Home() {
   const session = await auth0.getSession();
 
   return (
-    <div className="font-sans h-screen">
-      <nav className="flex justify-between items-center p-6 bg-gray-100">
+    <div className="font-sans h-screen flex flex-col items-center gap-10">
+      <nav className="flex justify-between items-center p-6 bg-gray-100 w-full">
         <h1 className="text-3xl font-bold">Loto Aplikacija</h1>
 
         <div className="flex items-center justify-center gap-4">
           {session ? (
             <div>
               <p>Pozdrav, {session.user.name}!</p>
+
               <button type="submit" className="px-4 py-2 bg-red-500 text-white rounded">
-                <Link href="/">Home</Link>
+                <Link href="/">Odjava∏</Link>
               </button>
             </div>
           ) : (
@@ -36,7 +37,7 @@ export default async function Home() {
         </div>
       </nav>
 
-      <div className='p-6'>
+      <div className="p-6 flex flex-col items-center gap-4">
         {activeRound ? (
           <>
             <h2 className="text-xl font-semibold">Trenutno kolo</h2>
@@ -44,6 +45,12 @@ export default async function Home() {
 
             {activeRound.drawnNumbers.length > 0 && !activeRound.areSubmissionsAllowed && (
               <p>Izvučeni brojevi: {activeRound.drawnNumbers.join(', ')}</p>
+            )}
+
+            {activeRound.areSubmissionsAllowed && (
+              <button className="mt-4 px-4 py-2 bg-amber-800 text-white rounded">
+                <Link href="/close">Uplati listić</Link>
+              </button>
             )}
           </>
         ) : (
