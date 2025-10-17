@@ -23,8 +23,8 @@ model Users {
 
 model Tickets {
   id               String        @id @default(uuid())
-  qrCodeImageLink  String
-  publicLink       String
+  qrCodeImageLink  String?
+  publicLink       String?
   predictedNumbers Int[]
   idCardNumber     String
   userId           Int

@@ -16,7 +16,7 @@ export default async function Home() {
   const session = await auth0.getSession();
 
   return (
-    <div className="font-sans h-screen flex flex-col items-center gap-10">
+    <>
       <nav className="flex justify-between items-center p-6 bg-gray-100 w-full">
         <h1 className="text-3xl font-bold">Loto Aplikacija</h1>
 
@@ -49,7 +49,7 @@ export default async function Home() {
 
             {activeRound.areSubmissionsAllowed && (
               <button className="mt-4 px-4 py-2 bg-amber-800 text-white rounded">
-                <Link href="/close">Uplati listić</Link>
+                <Link href="/new-ticket">Uplati listić</Link>
               </button>
             )}
           </>
@@ -57,6 +57,6 @@ export default async function Home() {
           <p className="text-lg font-semibold">Trenutno ni jedno kolo nije aktivno.</p>
         )}
       </div>
-    </div>
+    </>
   );
 }
