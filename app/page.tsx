@@ -5,9 +5,6 @@ import Link from 'next/link';
 
 export default async function Home() {
   const activeRound = await db.lotteryRounds.findFirst({
-    where: {
-      areSubmissionsAllowed: false,
-    },
     include: {
       tickets: true,
     },
