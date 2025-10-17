@@ -7,7 +7,7 @@ export async function POST() {
     })
 
     if (activeRound) {
-      return new Response('A lottery round is already active.', { status: 204 })
+      return new Response(undefined, { status: 204 })
     }
 
     const newRound = await db.lotteryRounds.create({

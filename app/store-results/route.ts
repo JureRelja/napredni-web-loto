@@ -7,11 +7,14 @@ export async function POST(request: Request) {
 
     const activeRound = await db.lotteryRounds.findFirst({
       where: {
-        areSubmissionsAllowed: true 
+        areSubmissionsAllowed: false,
       },
+      orderBy: {
+        id: 'asc',
+      }
     })
 
-    if (activeRound?.areSubmissionsAllowed === false && activeRound?.drawnNumbers.length === 0) {
+    if (activeRound?.drawnNumbers.length === 0) {
       const updatedRound = await db.lotteryRounds.update({
         where: { 
           id: activeRound.id 
@@ -21,7 +24,7 @@ export async function POST(request: Request) {
           drawnNumbers: numbers,
         },
       })
-      return new Response(JSON.stringify(updatedRound), { status: 204 })
+      return new Response(undefined, { status: 204 })
     }
 
     return new Response('Bad request', { status: 400 })

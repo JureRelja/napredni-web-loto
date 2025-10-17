@@ -7,7 +7,7 @@ export async function POST() {
     })
 
     if (!activeRound) {
-      return new Response('No active lottery round found.', { status: 204 })
+      return new Response(undefined, { status: 204 })
     }
 
     const closedRound = await db.lotteryRounds.update({
@@ -19,7 +19,7 @@ export async function POST() {
       },
     })
 
-    return new Response(JSON.stringify(closedRound), { status: 200 })
+    return new Response('Lottery round closed successfully.', { status: 200 })
   } catch (error) {
     console.error('Error closing lottery round:', error)
     return new Response('Internal Server Error', { status: 500 })
