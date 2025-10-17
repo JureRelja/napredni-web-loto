@@ -1,10 +1,12 @@
 "use client"
 import { useState } from "react"
 import { createNewTicket } from "../actions"
-import { redirect } from "next/navigation"
+import { redirect, useRouter } from "next/navigation"
 
 
 export default function NewTicketPage() {
+  const router = useRouter()
+  
   const [idCardNumber, setIdCardNumber] = useState<number | null>(null)
   const [selectedNumbers, setSelectedNumbers] = useState<string>('')
 
@@ -59,7 +61,7 @@ export default function NewTicketPage() {
         return
       }
 
-      redirect(`/public/tickets/${result.uuid}`);
+      router.push(`/public/tickets/${result.uuid}`);
     } catch (error) {
       console.error('Error submitting ticket:', error)
       alert('Došlo je do pogreške prilikom uplate listića.')
