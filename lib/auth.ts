@@ -13,6 +13,3 @@ export const auth0 = new Auth0Client({
   // secret: process.env.AUTH0_SECRET,
 });
 
-export const config = {
-  matcher: ["*"],
-};

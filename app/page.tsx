@@ -26,12 +26,12 @@ export default async function Home() {
               <p>Pozdrav, {session.user.name}!</p>
 
               <button type="submit" className="px-4 py-2 bg-red-500 text-white rounded">
-                <Link href="/">Odjava∏</Link>
+                <a href="/auth/logout">Odjava</a>
               </button>
             </div>
           ) : (
             <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded">
-              <Link href="/auth/login">Prijava</Link>
+              <a href="/auth/login">Prijava</a>
             </button>
           )}
         </div>
@@ -47,7 +47,7 @@ export default async function Home() {
               <p>Izvučeni brojevi: {activeRound.drawnNumbers.join(', ')}</p>
             )}
 
-            {activeRound.areSubmissionsAllowed && (
+            {activeRound.areSubmissionsAllowed && session && (
               <button className="mt-4 px-4 py-2 bg-amber-800 text-white rounded">
                 <Link href="/new-ticket">Uplati listić</Link>
               </button>
