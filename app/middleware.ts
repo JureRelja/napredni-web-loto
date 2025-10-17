@@ -4,3 +4,7 @@ import { NextRequest } from 'next/server'
 export async function middleware(request: NextRequest) {
   await auth0.middleware(request);
 }
+
+export const config = {
+  matcher: ['/new-ticket', '/'],
+};

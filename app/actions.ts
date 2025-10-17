@@ -1,11 +1,15 @@
-'use server'
+'use server';
 
 import { auth0 } from '@/lib/auth';
-import db from '@/lib/prisma.server'
- 
+import db from '@/lib/prisma.server';
+import { randomUUID } from 'crypto';
+import QRCode from 'qrcode';
+import fs from 'fs/promises';
+import path from 'path';
+
 interface data {
-  idCardNumber: number
-  selectedNumbers: number[]
+  idCardNumber: number;
+  selectedNumbers: number[];
 }
 
 export async function createNewTicket(data: data) {
@@ -28,14 +32,26 @@ export async function createNewTicket(data: data) {
   });
   if (!user) return;
 
-  const ticket = await db.tickets.create({
+  const ticketUuid = randomUUID();
+  const qrCodeImageLink = `/tickets/${ticketUuid}`;
+  const ticketUrl = `${process.env.APP_BASE_URL}/tickets/${ticketUuid}`;
+
+  const ticketsDir = path.join(process.cwd(), 'public', 'tickets');
+
+  const filename = `${ticketUuid}.png`;
+  const filepath = path.join(ticketsDir, filename);
+
+  const pngBuffer = await QRCode.toBuffer(ticketUrl, { type: 'png', width: 300 });
+  await fs.writeFile(filepath, pngBuffer);
+
+  return await db.tickets.create({
     data: {
+      uuid: ticketUuid,
       idCardNumber: data.idCardNumber.toString(),
       predictedNumbers: data.selectedNumbers,
       lotteryRoundId: activeRound.id,
       userId: user?.id,
+      qrCodeImageLink: qrCodeImageLink,
     },
-  })
-
-  return ticket
+  });
 }

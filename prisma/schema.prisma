@@ -16,15 +16,15 @@ model LotteryRounds {
 }
 
 model Users {
-  id      Int       @id
+  id      Int       @id @default(autoincrement())
   email   String    @unique
   tickets Tickets[]
 }
 
 model Tickets {
-  id               String        @id @default(uuid())
-  qrCodeImageLink  String?
-  publicLink       String?
+  id               Int           @id @default(autoincrement())
+  uuid             String        @unique
+  qrCodeImageLink  String
   predictedNumbers Int[]
   idCardNumber     String
   userId           Int

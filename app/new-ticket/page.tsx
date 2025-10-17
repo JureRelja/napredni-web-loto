@@ -1,6 +1,7 @@
 "use client"
 import { useState } from "react"
 import { createNewTicket } from "../actions"
+import { redirect } from "next/navigation"
 
 
 export default function NewTicketPage() {
@@ -9,6 +10,8 @@ export default function NewTicketPage() {
 
   const [idCardNumberError, setIdCardNumberError] = useState<string | null>(null)
   const [selectedNumbersError, setSelectedNumbersError] = useState<string | null>(null)
+
+  const [loading, setLoading] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -30,7 +33,12 @@ export default function NewTicketPage() {
 
     const numbersArray = selectedNumbers.split(',').map(num => parseInt(num.trim(), 10))
     if (numbersArray.some(num => isNaN(num) || num < 1 || num > 40)) {
-      setSelectedNumbersError('Brojevi moraju biti između 1 i 45, odvojeni zarezom.')
+      setSelectedNumbersError('Brojevi moraju biti između 1 i 45, odvojeni zarezom, bez razmaka iza zareza.')
+      return
+    }
+
+    if (numbersArray.length < 6 || numbersArray.length > 10) {
+      setSelectedNumbersError('Morate odabrati između 6 i 10 brojeva.')
       return
     }
 
@@ -38,20 +46,26 @@ export default function NewTicketPage() {
     setSelectedNumbersError(null)
 
     try {
+      setLoading(true)
+
       const data = {
         idCardNumber,
         selectedNumbers: numbersArray,
       }
-      await createNewTicket(data)
-      alert('Listić je uspješno uplaćen.')
+      const result = await createNewTicket(data)
 
-      setIdCardNumber(null)
-      setSelectedNumbers('')
+      if (!result) {
+        alert('Nije moguće uplatiti listić u ovom trenutku.')
+        return
+      }
+
+      redirect(`/public/tickets/${result.uuid}`);
     } catch (error) {
       console.error('Error submitting ticket:', error)
       alert('Došlo je do pogreške prilikom uplate listića.')
+    } finally {
+      setLoading(false)
     }
-
   }
 
   return (
@@ -88,8 +102,9 @@ export default function NewTicketPage() {
         <button
           type='submit'
           className='bg-blue-500 text-white rounded px-4 py-2 hover:bg-blue-600 transition'
+          disabled={loading}
         >
-          Uplati listić
+          {loading ? 'Uplaćivanje...' : 'Uplati listić'}
         </button>
       </form>
     </div>
