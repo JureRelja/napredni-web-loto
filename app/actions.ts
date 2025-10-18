@@ -33,7 +33,7 @@ export async function createNewTicket(data: data) {
   if (!user) return;
 
   const ticketUuid = randomUUID();
-  const qrCodeImageLink = `/tickets/${ticketUuid}`;
+  const qrCodeImageLink = `/tickets/${ticketUuid}.png`;
   const ticketUrl = `${process.env.APP_BASE_URL}/tickets/${ticketUuid}`;
 
   const ticketsDir = path.join(process.cwd(), 'public', 'tickets');
