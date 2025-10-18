@@ -40,6 +40,7 @@ export async function createNewTicket(data: data) {
 
   const filename = `${ticketUuid}.png`;
   const filepath = path.join(ticketsDir, filename);
+  await fs.mkdir(ticketsDir, { recursive: true });
 
   const pngBuffer = await QRCode.toBuffer(ticketUrl, { type: 'png', width: 300 });
   await fs.writeFile(filepath, pngBuffer);
