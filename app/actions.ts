@@ -34,16 +34,6 @@ export async function createNewTicket(data: data) {
 
   const ticketUuid = randomUUID();
   const qrCodeImageLink = `/tickets/${ticketUuid}.png`;
-  const ticketUrl = `${process.env.APP_BASE_URL}/tickets/${ticketUuid}`;
-
-  const ticketsDir = path.join(process.cwd(), 'public', 'tickets');
-
-  const filename = `${ticketUuid}.png`;
-  const filepath = path.join(ticketsDir, filename);
-  await fs.mkdir(ticketsDir, { recursive: true });
-
-  const pngBuffer = await QRCode.toBuffer(ticketUrl, { type: 'png', width: 300 });
-  await fs.writeFile(filepath, pngBuffer);
 
   return await db.tickets.create({
     data: {

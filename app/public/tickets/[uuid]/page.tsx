@@ -1,5 +1,6 @@
 import db from '@/lib/prisma.server'
 import Image from 'next/image'
+import QRCode from 'qrcode'
 
 interface TicketPublicPageProps {
   params: Promise<{ uuid: string }>,
@@ -17,6 +18,9 @@ export default async function TicketPublicPage(props: TicketPublicPageProps) {
     }
   })
  
+  const ticketUrl = `${process.env.APP_BASE_URL}${ticket?.qrCodeImageLink}`;
+  const pngBuffer = await QRCode.toBuffer(ticketUrl, { type: 'png', width: 300 });
+
   return (
     <div className='flex flex-col items-center justify-center h-screen'>
       {ticket ? (
@@ -30,7 +34,7 @@ export default async function TicketPublicPage(props: TicketPublicPageProps) {
             <p>Izvućeni brojevi: {ticket.lotteryRound.drawnNumbers.join(', ')}</p>
           )}
 
-          <Image src={ticket.qrCodeImageLink} alt="QR Code" width={192} height={192} className='w-48 h-48 mt-10' />
+          <Image src={`data:image/png;base64,${pngBuffer.toString('base64')}`} alt="QR Code" width={192} height={192} className='w-48 h-48 mt-10' />
         </div>
       ) : (
         <p>Listić nije pronađen.</p>
