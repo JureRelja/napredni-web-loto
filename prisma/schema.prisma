@@ -24,7 +24,6 @@ model Users {
 model Tickets {
   id               Int           @id @default(autoincrement())
   uuid             String        @unique
-  qrCodeImageLink  String
   predictedNumbers Int[]
   idCardNumber     String
   userId           Int

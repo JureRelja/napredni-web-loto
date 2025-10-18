@@ -3,9 +3,6 @@
 import { auth0 } from '@/lib/auth';
 import db from '@/lib/prisma.server';
 import { randomUUID } from 'crypto';
-import QRCode from 'qrcode';
-import fs from 'fs/promises';
-import path from 'path';
 
 interface data {
   idCardNumber: number;
@@ -33,7 +30,6 @@ export async function createNewTicket(data: data) {
   if (!user) return;
 
   const ticketUuid = randomUUID();
-  const qrCodeImageLink = `/tickets/${ticketUuid}.png`;
 
   return await db.tickets.create({
     data: {
@@ -42,7 +38,6 @@ export async function createNewTicket(data: data) {
       predictedNumbers: data.selectedNumbers,
       lotteryRoundId: activeRound.id,
       userId: user?.id,
-      qrCodeImageLink: qrCodeImageLink,
     },
   });
 }

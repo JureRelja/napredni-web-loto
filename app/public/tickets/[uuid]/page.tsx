@@ -18,7 +18,7 @@ export default async function TicketPublicPage(props: TicketPublicPageProps) {
     }
   })
  
-  const ticketUrl = `${process.env.APP_BASE_URL}${ticket?.qrCodeImageLink}`;
+  const ticketUrl = `${process.env.APP_BASE_URL}/tickets/${ticket?.uuid}`;
   const pngBuffer = await QRCode.toBuffer(ticketUrl, { type: 'png', width: 300 });
 
   return (
