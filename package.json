@@ -7,13 +7,12 @@
     "build": "npx prisma db seed && npm run db:setup && next build",
     "start": "next start",
     "lint": "eslint",
-    "db:setup-dev": "npm run db:generate && npm run db:push && npm run db:seed",
-    "db:setup": "npm run db:generate && npm run db:deploy && npm run db:seed",
+    "db:setup-dev": "npm run db:generate && npm run db:push",
+    "db:setup": "npm run db:generate && npm run db:deploy",
     "db:generate": "npx prisma generate",
     "db:push": "npx prisma db push",
     "db:migrate": "npx prisma migrate dev",
-    "db:deploy": "npx prisma migrate deploy",
-    "db:seed": "npx prisma db seed"
+    "db:deploy": "npx prisma migrate deploy"
   },
   "dependencies": {
     "@auth0/auth0-react": "^2.8.0",
