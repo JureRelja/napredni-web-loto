@@ -45,6 +45,12 @@ export default withPageAuthRequired(function NewTicket({ user }) {
       return
     }
 
+    const numbersSet = new Set(numbersArray)
+    if (numbersSet.size !== numbersArray.length) {
+      setSelectedNumbersError('Odabrani brojevi ne smiju sadržavati duplikate.')
+      return
+    }
+
     setIdCardNumberError(null)
     setSelectedNumbersError(null)
 
